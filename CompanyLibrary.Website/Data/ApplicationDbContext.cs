@@ -22,5 +22,10 @@ namespace CompanyLibrary.Website.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
         }
+        
+
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<Book> Books { get; set; }
+        public DbSet<Borrowing> Borrowings { get; set; }
     }
 }
