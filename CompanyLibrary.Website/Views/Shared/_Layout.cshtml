@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - CompanyLibrary.Website</title>
+    <title>@ViewData["Title"] - Company Library</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -26,11 +26,30 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">CompanyLibrary.Website</a>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Company Library</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            Books
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a asp-area="" asp-controller="Books" asp-action="Index">All</a></li>
+                            <li><a asp-area="" asp-controller="Books" asp-action="Create">Add new</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            Borrowings
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a asp-area="" asp-controller="Borrowings" asp-action="Index">My borrowings</a></li>
+                            <li><a asp-area="" asp-controller="Borrowings" asp-action="History">History</a></li>
+                        </ul>
+                    </li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
                 </ul>
@@ -42,7 +61,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2018 - CompanyLibrary.Website</p>
+            <p>&copy; 2018 - Company Library - Jakub Wajs</p>
         </footer>
     </div>
 
