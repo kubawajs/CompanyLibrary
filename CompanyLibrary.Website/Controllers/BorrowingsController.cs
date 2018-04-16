@@ -12,9 +12,9 @@ namespace CompanyLibrary.Website.Controllers
 {
     public class BorrowingsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly CompanyLibraryDbContext _context;
 
-        public BorrowingsController(ApplicationDbContext context)
+        public BorrowingsController(CompanyLibraryDbContext context)
         {
             _context = context;
         }

@@ -8,13 +8,12 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
-namespace CompanyLibrary.Website.Data.Migrations
+namespace CompanyLibrary.Website.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180416163130_initial")]
-    partial class initial
+    [DbContext(typeof(CompanyLibraryDbContext))]
+    partial class CompanyLibraryDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -77,6 +76,8 @@ namespace CompanyLibrary.Website.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("AddedById");
+
                     b.Property<string>("Author")
                         .HasMaxLength(100);
 
@@ -87,6 +88,8 @@ namespace CompanyLibrary.Website.Data.Migrations
                         .HasMaxLength(100);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AddedById");
 
                     b.ToTable("Books");
                 });
@@ -217,6 +220,13 @@ namespace CompanyLibrary.Website.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("CompanyLibrary.Website.Models.Book", b =>
+                {
+                    b.HasOne("CompanyLibrary.Website.Models.ApplicationUser", "AddedBy")
+                        .WithMany()
+                        .HasForeignKey("AddedById");
                 });
 
             modelBuilder.Entity("CompanyLibrary.Website.Models.Borrowing", b =>

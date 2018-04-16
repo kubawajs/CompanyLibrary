@@ -17,11 +17,21 @@ namespace CompanyLibrary.Website.Models
         [StringLength(100)]
         public string Author { get; set; }
 
-        [StringLength(500)]
+        [StringLength(2000)]
         public string Description { get; set; }
 
         public virtual IEnumerable<Borrowing> BorrowingsHistory { get; set; }
         public virtual ApplicationUser AddedBy { get; set; }
         // TODO: availability
+
+        public void SetAddedBy(ApplicationUser appUser)
+        {
+            if(appUser == null)
+            {
+                throw new Exception("User is null.");
+            }
+            if (AddedBy == appUser) return;
+            AddedBy = appUser;
+        }
     }
 }

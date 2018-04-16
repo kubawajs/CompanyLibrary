@@ -7,23 +7,27 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CompanyLibrary.Website.Data;
 using CompanyLibrary.Website.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+using CompanyLibrary.Website.Services;
 
 namespace CompanyLibrary.Website.Controllers
 {
     public class BooksController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IBookService _bookService;
+        private readonly IApplicationUserService _applicationUserService;
 
-        public BooksController(ApplicationDbContext context)
+
+        public BooksController(IBookService bookService, IApplicationUserService applicationUserService)
         {
-            _context = context;
+            _bookService = bookService;
+            _applicationUserService = applicationUserService;
         }
 
         // GET: Books
         public async Task<IActionResult> Index()
-        {
-            return View(await _context.Books.ToListAsync());
-        }
+            => View(await _bookService.GetAllAsync());
 
         // GET: Books/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -33,17 +37,17 @@ namespace CompanyLibrary.Website.Controllers
                 return NotFound();
             }
 
-            var book = await _context.Books
-                .SingleOrDefaultAsync(m => m.Id == id);
+            var book = await _bookService.GetAsync(id.Value);
             if (book == null)
             {
                 return NotFound();
             }
-
             return View(book);
         }
 
+
         // GET: Books/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -53,19 +57,21 @@ namespace CompanyLibrary.Website.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Title,Author,Description")] Book book)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(book);
-                await _context.SaveChangesAsync();
+                var user = await _applicationUserService.GetCurrentUserAsync(HttpContext);
+                await _bookService.CreateAsync(book, user);
                 return RedirectToAction(nameof(Index));
             }
             return View(book);
         }
 
         // GET: Books/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,7 +79,7 @@ namespace CompanyLibrary.Website.Controllers
                 return NotFound();
             }
 
-            var book = await _context.Books.SingleOrDefaultAsync(m => m.Id == id);
+            var book = await _bookService.GetAsync(id.Value);
             if (book == null)
             {
                 return NotFound();
@@ -86,6 +92,7 @@ namespace CompanyLibrary.Website.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Edit(int id, [Bind("Title,Author,Description")] Book book)
         {
             if (id != book.Id)
@@ -97,12 +104,11 @@ namespace CompanyLibrary.Website.Controllers
             {
                 try
                 {
-                    _context.Update(book);
-                    await _context.SaveChangesAsync();
+                    await _bookService.UpdateAsync(book);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BookExists(book.Id))
+                    if (!(await BookExists(book.Id)))
                     {
                         return NotFound();
                     }
@@ -117,6 +123,7 @@ namespace CompanyLibrary.Website.Controllers
         }
 
         // GET: Books/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,8 +131,8 @@ namespace CompanyLibrary.Website.Controllers
                 return NotFound();
             }
 
-            var book = await _context.Books
-                .SingleOrDefaultAsync(m => m.Id == id);
+            // TODO: Only creator of book can delete it
+            var book = await _bookService.GetAsync(id.Value);
             if (book == null)
             {
                 return NotFound();
@@ -137,17 +144,14 @@ namespace CompanyLibrary.Website.Controllers
         // POST: Books/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var book = await _context.Books.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Books.Remove(book);
-            await _context.SaveChangesAsync();
+            await _bookService.RemoveAsync(id);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool BookExists(int id)
-        {
-            return _context.Books.Any(e => e.Id == id);
-        }
+        private async Task<bool> BookExists(int id)
+            => await _bookService.BookExists(id);
     }
 }
