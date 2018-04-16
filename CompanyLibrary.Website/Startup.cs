@@ -36,6 +36,8 @@ namespace CompanyLibrary.Website
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<IApplicationUserService, ApplicationUserService>();
+            services.AddTransient<IBookService, BookService>();
+            services.AddTransient<IBorrowingService, BorrowingService>();
 
             // Add authentication
             services.AddAuthentication().AddGoogle(googleOptions =>

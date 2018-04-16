@@ -45,6 +45,20 @@ namespace CompanyLibrary.Website.Controllers
             return View(book);
         }
 
+        // GET: Books/Borrow
+        [Authorize]
+        public IActionResult Borrow(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            return RedirectToAction("Borrow", "Borrowings",
+                new
+                {
+                    Id = id.Value,
+                });
+        }
 
         // GET: Books/Create
         [Authorize]

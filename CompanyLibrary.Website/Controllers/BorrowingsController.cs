@@ -7,16 +7,24 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CompanyLibrary.Website.Data;
 using CompanyLibrary.Website.Models;
+using Microsoft.AspNetCore.Authorization;
+using CompanyLibrary.Website.Services;
 
 namespace CompanyLibrary.Website.Controllers
 {
     public class BorrowingsController : Controller
     {
+        private readonly IApplicationUserService _applicationUserService;
+        private readonly IBookService _bookService;
         private readonly CompanyLibraryDbContext _context;
 
-        public BorrowingsController(CompanyLibraryDbContext context)
+        public BorrowingsController(CompanyLibraryDbContext context,
+            IApplicationUserService applicationUserService,
+            IBookService bookService)
         {
             _context = context;
+            _applicationUserService = applicationUserService;
+            _bookService = bookService;
         }
 
         // GET: Borrowings
@@ -52,9 +60,10 @@ namespace CompanyLibrary.Website.Controllers
         // POST: Borrowings/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,RentalDate")] Borrowing borrowing)
+        public async Task<IActionResult> Create([Bind("RentalDate")] Borrowing borrowing)
         {
             if (ModelState.IsValid)
             {
@@ -66,6 +75,7 @@ namespace CompanyLibrary.Website.Controllers
         }
 
         // GET: Borrowings/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -84,6 +94,7 @@ namespace CompanyLibrary.Website.Controllers
         // POST: Borrowings/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,RentalDate")] Borrowing borrowing)
@@ -117,6 +128,7 @@ namespace CompanyLibrary.Website.Controllers
         }
 
         // GET: Borrowings/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -135,6 +147,7 @@ namespace CompanyLibrary.Website.Controllers
         }
 
         // POST: Borrowings/Delete/5
+        [Authorize]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -143,6 +156,28 @@ namespace CompanyLibrary.Website.Controllers
             _context.Borrowings.Remove(borrowing);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Borrow(int id)
+        {
+            var user = await _applicationUserService.GetCurrentUserAsync(HttpContext);
+            var book = await _bookService.GetAsync(id);
+
+            var borrowing = new Borrowing
+            {
+                RentalDate = DateTime.Now,
+                Book = book,
+                Borrower = user
+            };
+
+            if (ModelState.IsValid)
+            {
+                _context.Add(borrowing);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(borrowing);
         }
 
         private bool BorrowingExists(int id)
