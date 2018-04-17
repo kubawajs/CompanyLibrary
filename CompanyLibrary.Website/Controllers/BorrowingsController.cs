@@ -14,24 +14,22 @@ namespace CompanyLibrary.Website.Controllers
 {
     public class BorrowingsController : Controller
     {
+        private readonly IBorrowingService _borrowingService;
         private readonly IApplicationUserService _applicationUserService;
         private readonly IBookService _bookService;
-        private readonly CompanyLibraryDbContext _context;
 
-        public BorrowingsController(CompanyLibraryDbContext context,
+        public BorrowingsController(IBorrowingService borrowingService,
             IApplicationUserService applicationUserService,
             IBookService bookService)
         {
-            _context = context;
+            _borrowingService = borrowingService;
             _applicationUserService = applicationUserService;
             _bookService = bookService;
         }
 
         // GET: Borrowings
         public async Task<IActionResult> Index()
-        {
-            return View(await _context.Borrowings.ToListAsync());
-        }
+            => View(await _borrowingService.GetAllAsync());
 
         // GET: Borrowings/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -41,8 +39,7 @@ namespace CompanyLibrary.Website.Controllers
                 return NotFound();
             }
 
-            var borrowing = await _context.Borrowings
-                .SingleOrDefaultAsync(m => m.Id == id);
+            var borrowing = await _borrowingService.GetAsync(id.Value);
             if (borrowing == null)
             {
                 return NotFound();
@@ -63,12 +60,11 @@ namespace CompanyLibrary.Website.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RentalDate")] Borrowing borrowing)
+        public async Task<IActionResult> Create([Bind("Borrower, Book")] Borrowing borrowing)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(borrowing);
-                await _context.SaveChangesAsync();
+                await _borrowingService.CreateAsync(borrowing);
                 return RedirectToAction(nameof(Index));
             }
             return View(borrowing);
@@ -83,7 +79,7 @@ namespace CompanyLibrary.Website.Controllers
                 return NotFound();
             }
 
-            var borrowing = await _context.Borrowings.SingleOrDefaultAsync(m => m.Id == id);
+            var borrowing = await _borrowingService.GetAsync(id.Value);
             if (borrowing == null)
             {
                 return NotFound();
@@ -108,12 +104,11 @@ namespace CompanyLibrary.Website.Controllers
             {
                 try
                 {
-                    _context.Update(borrowing);
-                    await _context.SaveChangesAsync();
+                    await _borrowingService.UpdateAsync(borrowing);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BorrowingExists(borrowing.Id))
+                    if (!(await BorrowingExists(borrowing.Id)))
                     {
                         return NotFound();
                     }
@@ -136,8 +131,7 @@ namespace CompanyLibrary.Website.Controllers
                 return NotFound();
             }
 
-            var borrowing = await _context.Borrowings
-                .SingleOrDefaultAsync(m => m.Id == id);
+            var borrowing = await _borrowingService.GetAsync(id.Value);
             if (borrowing == null)
             {
                 return NotFound();
@@ -152,9 +146,7 @@ namespace CompanyLibrary.Website.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var borrowing = await _context.Borrowings.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Borrowings.Remove(borrowing);
-            await _context.SaveChangesAsync();
+            await _borrowingService.RemoveAsync(id);
             return RedirectToAction(nameof(Index));
         }
 
@@ -164,25 +156,15 @@ namespace CompanyLibrary.Website.Controllers
             var user = await _applicationUserService.GetCurrentUserAsync(HttpContext);
             var book = await _bookService.GetAsync(id);
 
-            var borrowing = new Borrowing
-            {
-                RentalDate = DateTime.Now,
-                Book = book,
-                Borrower = user
-            };
-
             if (ModelState.IsValid)
             {
-                _context.Add(borrowing);
-                await _context.SaveChangesAsync();
+                await _borrowingService.CreateAsync(user, book);
                 return RedirectToAction(nameof(Index));
             }
-            return View(borrowing);
+            return View();
         }
 
-        private bool BorrowingExists(int id)
-        {
-            return _context.Borrowings.Any(e => e.Id == id);
-        }
+        private async Task<bool> BorrowingExists(int id)
+            => await _borrowingService.BorrowingExists(id);
     }
 }

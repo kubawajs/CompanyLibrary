@@ -10,8 +10,10 @@ namespace CompanyLibrary.Website.Services
     {
         Task<IEnumerable<Borrowing>> GetAllAsync();
         Task CreateAsync(Borrowing borrowing);
-        Task<Borrowing> GetAsync(Guid id);
-        Task RemoveAsync(Guid id);
+        Task CreateAsync(ApplicationUser user, Book book);
+        Task<Borrowing> GetAsync(int id);
+        Task RemoveAsync(int id);
         Task UpdateAsync(Borrowing borrowing);
+        Task<bool> BorrowingExists(int id);
     }
 }
