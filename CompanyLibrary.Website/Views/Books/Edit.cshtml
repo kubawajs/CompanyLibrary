@@ -1,12 +1,13 @@
 ﻿@model CompanyLibrary.Website.Models.Book
 
 @{
-    ViewData["Title"] = "Edit";
+    var title = Model.Title + " by " + Model.Author;
+    ViewData["Title"] = "Edit " + title;
 }
 
 <h2>Edit</h2>
 
-<h4>Book</h4>
+<h4>@title</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -36,7 +37,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Back to all books</a>
 </div>
 
 @section Scripts {

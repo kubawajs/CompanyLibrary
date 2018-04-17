@@ -1,13 +1,14 @@
 ﻿@model CompanyLibrary.Website.Models.Book
 
 @{
-    ViewData["Title"] = "Details";
+    var title = Model.Title + " by " + Model.Author;
+    ViewData["Title"] = title;
 }
 
 <h2>Details</h2>
 
 <div>
-    <h4>Book</h4>
+    <h4>@title</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>

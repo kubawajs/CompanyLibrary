@@ -25,17 +25,31 @@ namespace CompanyLibrary.Website.Services
 
         public async Task CreateAsync(ApplicationUser user, Book book)
         {
-            var borrowing = new Borrowing();
-            borrowing.SetBorrower(user);
-            borrowing.SetBook(book);
+            if(book.Availability == Availability.NotAvailable)
+            {
+                throw new Exception("Book is not available.");
+            }
+            var borrowing = PrepareBorrowing(user, book);
+            book.IsNotAvailable();
             await CreateAsync(borrowing);
         }
 
+        private static Borrowing PrepareBorrowing(ApplicationUser user, Book book)
+        {
+            var borrowing = new Borrowing();
+            borrowing.SetBorrower(user);
+            borrowing.SetBook(book);
+            return borrowing;
+        }
+
         public async Task<IEnumerable<Borrowing>> GetAllAsync()
-            => await Task.FromResult(_context.Borrowings);
+            => await Task.FromResult(_context.Borrowings.Include("Borrower")
+                                                        .Include("Book"));
 
         public async Task<Borrowing> GetAsync(int id)
-            => await _context.Borrowings.SingleOrDefaultAsync(m => m.Id == id);
+            => await _context.Borrowings.Include("Borrower")
+                                        .Include("Book")
+                                        .SingleOrDefaultAsync(m => m.Id == id);
 
         public async Task RemoveAsync(int id)
         {

@@ -20,9 +20,17 @@ namespace CompanyLibrary.Website.Models
         [StringLength(2000)]
         public string Description { get; set; }
 
+        public DateTime AddedAt { get; private set; }
+        public Availability Availability { get; private set; }
+
         public virtual IEnumerable<Borrowing> BorrowingsHistory { get; set; }
         public virtual ApplicationUser AddedBy { get; set; }
-        // TODO: availability
+
+        public Book()
+        {
+            AddedAt = DateTime.Now;
+            Availability = Availability.Available;
+        }
 
         public void SetAddedBy(ApplicationUser appUser)
         {
@@ -33,5 +41,21 @@ namespace CompanyLibrary.Website.Models
             if (AddedBy == appUser) return;
             AddedBy = appUser;
         }
+
+        public void IsAvailable()
+        {
+            Availability = Availability.Available;
+        }
+
+        public void IsNotAvailable()
+        {
+            Availability = Availability.NotAvailable;
+        }
+    }
+
+    public enum Availability
+    {
+        Available,
+        NotAvailable
     }
 }

@@ -150,19 +150,28 @@ namespace CompanyLibrary.Website.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
+        // GET: Borrowings/Borrow
         [Authorize]
         public async Task<IActionResult> Borrow(int id)
         {
             var user = await _applicationUserService.GetCurrentUserAsync(HttpContext);
             var book = await _bookService.GetAsync(id);
 
+            if(book.Availability == Availability.NotAvailable)
+            {
+                //TODO: Add view
+                return NotFound();
+            }
+
             if (ModelState.IsValid)
             {
                 await _borrowingService.CreateAsync(user, book);
                 return RedirectToAction(nameof(Index));
             }
-            return View();
+            return View(nameof(Index));
         }
+
 
         private async Task<bool> BorrowingExists(int id)
             => await _borrowingService.BorrowingExists(id);
