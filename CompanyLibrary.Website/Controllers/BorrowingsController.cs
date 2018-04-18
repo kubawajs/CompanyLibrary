@@ -172,6 +172,20 @@ namespace CompanyLibrary.Website.Controllers
             return View(nameof(Index));
         }
 
+        [Authorize]
+        public async Task<IActionResult> Return(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var borrowing = await _borrowingService.GetAsync(id.Value);
+            await _borrowingService.EndBorrowing(borrowing);
+            await _bookService.EndBorrowing(borrowing);
+
+            return RedirectToAction(nameof(Index));
+        }
+
 
         private async Task<bool> BorrowingExists(int id)
             => await _borrowingService.BorrowingExists(id);

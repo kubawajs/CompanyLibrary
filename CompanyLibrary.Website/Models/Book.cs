@@ -30,6 +30,7 @@ namespace CompanyLibrary.Website.Models
         {
             AddedAt = DateTime.Now;
             Availability = Availability.Available;
+            BorrowingsHistory = new List<Borrowing>();
         }
 
         public void SetAddedBy(ApplicationUser appUser)
@@ -50,6 +51,12 @@ namespace CompanyLibrary.Website.Models
         public void IsNotAvailable()
         {
             Availability = Availability.NotAvailable;
+        }
+
+        public void EndBorrowing(Borrowing borrowing)
+        {
+            IsAvailable();
+            BorrowingsHistory.Append(borrowing);
         }
     }
 

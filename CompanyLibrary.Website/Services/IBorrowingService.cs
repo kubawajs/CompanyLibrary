@@ -15,5 +15,6 @@ namespace CompanyLibrary.Website.Services
         Task RemoveAsync(int id);
         Task UpdateAsync(Borrowing borrowing);
         Task<bool> BorrowingExists(int id);
+        Task EndBorrowing(Borrowing borrowing);
     }
 }

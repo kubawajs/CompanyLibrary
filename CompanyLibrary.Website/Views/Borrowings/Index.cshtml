@@ -7,7 +7,7 @@
 <h2>All borrowings</h2>
 
 <p>
-    @if(User.IsInRole("Admin"))
+    @if (User.IsInRole("Admin"))
     {
         <a asp-action="Create">Create New</a>
     }
@@ -27,35 +27,44 @@
             <th>
                 @Html.DisplayNameFor(model => model.RentalDate)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.State)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Book.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Book.Author)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Borrower.UserName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RentalDate)
-            </td>
-            <td>
-                <a asp-action="Return" asp-route-id="@item.Id">Return</a>
-
-                @if (ViewContext.HttpContext.User.IsInRole("Admin"))
-                {
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                    <a asp-action="Details" asp-route-id="@item.Id"> Details</a>
-                    <a asp-action="Delete" asp-route-id="@item.Id"> Delete</a>
-                }
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Book.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Book.Author)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Borrower.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RentalDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.State)
+                </td>
+                <td>
+                    @if (item.State == BorrowingState.InProgrees)
+                    {
+                        <a asp-action="Return" asp-route-id="@item.Id">Return</a>
+                    }
+                    @if (ViewContext.HttpContext.User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        <a asp-action="Details" asp-route-id="@item.Id"> Details</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id"> Delete</a>
+                    }
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

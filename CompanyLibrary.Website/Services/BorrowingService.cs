@@ -66,5 +66,11 @@ namespace CompanyLibrary.Website.Services
 
         public async Task<bool> BorrowingExists(int id)
             => await Task.FromResult(_context.Borrowings.Any(e => e.Id == id));
+
+        public async Task EndBorrowing(Borrowing borrowing)
+        {
+            borrowing.EndBorrowing();
+            await UpdateAsync(borrowing);
+        }
     }
 }

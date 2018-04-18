@@ -48,6 +48,12 @@ namespace CompanyLibrary.Website.Services
             await _context.SaveChangesAsync();
         }
 
+        public async Task EndBorrowing(Borrowing borrowing)
+        {
+            borrowing.Book.EndBorrowing(borrowing);
+            await UpdateAsync(borrowing.Book);
+        }
+
         public async Task<bool> BookExists(int id)
             => await Task.FromResult(_context.Books.Any(e => e.Id == id));
     }

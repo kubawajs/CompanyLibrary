@@ -12,9 +12,10 @@ using System;
 namespace CompanyLibrary.Website.Migrations
 {
     [DbContext(typeof(CompanyLibraryDbContext))]
-    partial class CompanyLibraryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180418205450_borrowing-update")]
+    partial class borrowingupdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

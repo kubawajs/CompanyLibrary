@@ -14,12 +14,17 @@ namespace CompanyLibrary.Website.Models
         [DataType(DataType.DateTime)]
         public DateTime RentalDate { get; private set; }
 
+        [DataType(DataType.DateTime)]
+        public DateTime EndDate { get; private set; }
+
+        public BorrowingState State { get; private set; }
         public virtual Book Book { get; set; }
         public virtual ApplicationUser Borrower { get; set; }
 
         public Borrowing()
         {
             RentalDate = DateTime.Now;
+            State = BorrowingState.InProgrees;
         }
 
 
@@ -42,5 +47,25 @@ namespace CompanyLibrary.Website.Models
             if (Book == book) return;
             Book = book;
         }
+
+        public void EndBorrowing()
+        {
+            EndDate = DateTime.Now;
+            State = BorrowingState.Closed;
+        }
+
+        public void CancelBorrowing()
+        {
+            EndDate = DateTime.Now;
+            State = BorrowingState.Cancelled;
+            Book.IsAvailable();
+        }
+    }
+
+    public enum BorrowingState
+    {
+        InProgrees,
+        Closed,
+        Cancelled
     }
 }
