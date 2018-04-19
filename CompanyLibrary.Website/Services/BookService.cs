@@ -30,7 +30,7 @@ namespace CompanyLibrary.Website.Services
         }
 
         public async Task<IEnumerable<Book>> GetAllAsync()
-            => await Task.FromResult(_context.Books);
+            => await Task.FromResult(_context.Books.Include("AddedBy"));
 
         public async Task<Book> GetAsync(int id)
             => await _context.Books.SingleOrDefaultAsync(m => m.Id == id);
@@ -56,5 +56,9 @@ namespace CompanyLibrary.Website.Services
 
         public async Task<bool> BookExists(int id)
             => await Task.FromResult(_context.Books.Any(e => e.Id == id));
+
+        public async Task<IEnumerable<Book>> GetAllByUserAsync(ApplicationUser user)
+            => await Task.FromResult(_context.Books.Include("AddedBy")
+                                                   .Where(x => x.AddedBy.Id == user.Id));
     }
 }

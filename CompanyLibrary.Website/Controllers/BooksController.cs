@@ -29,6 +29,13 @@ namespace CompanyLibrary.Website.Controllers
         public async Task<IActionResult> Index()
             => View(await _bookService.GetAllAsync());
 
+        // GET: Books/MyBooks
+        public async Task<IActionResult> MyBooks()
+        {
+            var user = await _applicationUserService.GetCurrentUserAsync(HttpContext);
+            return View(await _bookService.GetAllByUserAsync(user));
+        }
+
         // GET: Books/Details/5
         public async Task<IActionResult> Details(int? id)
         {

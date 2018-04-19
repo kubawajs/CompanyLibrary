@@ -78,5 +78,10 @@ namespace CompanyLibrary.Website.Services
                                                         .Include("Book")
                                                         .Where(x => x.State == state)
                                                         .Where(x => x.Borrower == user));
+
+        public async Task<IEnumerable<Borrowing>> GetAllByBookAsync(Book book)
+            => await Task.FromResult(_context.Borrowings.Include("Borrower")
+                                                        .Include("Book")
+                                                        .Where(x => x.Book.Id == book.Id));
     }
 }

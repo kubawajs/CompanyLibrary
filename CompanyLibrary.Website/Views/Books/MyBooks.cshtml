@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<CompanyLibrary.Website.Models.Book>
 
 @{
-    ViewData["Title"] = "All books";
+    ViewData["Title"] = "My books";
 }
 
-<h2>All books</h2>
+<h2>My books</h2>
 
 @if (Context.User.Identity.IsAuthenticated)
 {
@@ -51,7 +51,7 @@
                     {
                         <a asp-action="Borrow" asp-route-id="@item.Id">Borrow</a>
                     }
-                    @if (Context.User.Identity.IsAuthenticated && item.AddedBy != null && Context.User.Identity.Name == item.AddedBy.UserName)
+                    @if (Context.User.Identity.IsAuthenticated)
                     {
                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
                         <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>

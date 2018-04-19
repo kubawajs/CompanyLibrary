@@ -30,7 +30,15 @@
             @Html.DisplayFor(model => model.Description)
         </dd>
     </dl>
+    <hr />
+    <div>
+        <h4>Borrowings history</h4>
+        <div class="container">
+            @await Component.InvokeAsync("BookHistory", new { book = Model })
+        </div>
+    </div>
 </div>
+
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
