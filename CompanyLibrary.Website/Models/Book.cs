@@ -17,6 +17,7 @@ namespace CompanyLibrary.Website.Models
         [StringLength(100)]
         public string Author { get; set; }
 
+        [DataType(DataType.MultilineText)]
         [StringLength(2000)]
         public string Description { get; set; }
 

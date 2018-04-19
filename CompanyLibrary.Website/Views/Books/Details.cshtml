@@ -40,6 +40,9 @@
 </div>
 
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    @if (Context.User.Identity.IsAuthenticated && Model.AddedBy != null && Context.User.Identity.Name == Model.AddedBy.UserName)
+    {
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-info">Edit</a>
+    }
+    <a asp-action="Index" class="btn btn-default">Back to List</a>
 </div>

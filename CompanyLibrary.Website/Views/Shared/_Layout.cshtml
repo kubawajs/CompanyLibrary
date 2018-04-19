@@ -32,16 +32,17 @@
                 <ul class="nav navbar-nav">
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <span class="glyphicon glyphicon-book"></span>
                             Books
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a asp-area="" asp-controller="Books" asp-action="Index">All</a></li>
+                            <li><a asp-area="" asp-controller="Books" asp-action="Index"><span class="glyphicon glyphicon-align-justify"></span> All</a></li>
 
                             @if (Context.User.Identity.IsAuthenticated)
                             {
-                                <li><a asp-area="" asp-controller="Books" asp-action="MyBooks">My books</a></li>
-                                <li><a asp-area="" asp-controller="Books" asp-action="Create">Add new</a></li>
+                                <li><a asp-area="" asp-controller="Books" asp-action="MyBooks"><span class="glyphicon glyphicon-bookmark"></span> My books</a></li>
+                                <li><a asp-area="" asp-controller="Books" asp-action="Create"><span class="glyphicon glyphicon-new-window"></span> Add new</a></li>
                             }
 
                         </ul>
@@ -51,18 +52,19 @@
                     {
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <span class="glyphicon glyphicon-list-alt"></span>
                                 Borrowings
                                 <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a asp-area="" asp-controller="Borrowings" asp-action="Index">My borrowings</a></li>
-                                <li><a asp-area="" asp-controller="Borrowings" asp-action="History">History</a></li>
+                                <li><a asp-area="" asp-controller="Borrowings" asp-action="Index"><span class="glyphicon glyphicon-folder-open"></span> My borrowings</a></li>
+                                <li><a asp-area="" asp-controller="Borrowings" asp-action="History"><span class="glyphicon glyphicon-inbox"></span> History</a></li>
                             </ul>
                         </li>
                     }
 
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="About"><span class="glyphicon glyphicon-info-sign"></span> About</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Contact"><span class="glyphicon glyphicon-envelope"></span> Contact</a></li>
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>

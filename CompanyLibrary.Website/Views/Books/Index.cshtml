@@ -9,7 +9,7 @@
 @if (Context.User.Identity.IsAuthenticated)
 {
     <p>
-        <a asp-action="Create">Create New</a>
+        <a asp-action="Create" class="btn btn-success"><span class="glyphicon glyphicon-new-window"></span> Create New</a>
     </p>
 }
 <table class="table">
@@ -24,9 +24,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Description)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Availability)
-            </th>
+            <th></th>
             <th></th>
         </tr>
     </thead>
@@ -44,19 +42,24 @@
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Availability)
-                </td>
-                <td>
                     @if (item.Availability == Availability.Available)
                     {
-                        <a asp-action="Borrow" asp-route-id="@item.Id">Borrow</a>
+                    <a asp-action="Borrow" asp-route-id="@item.Id" class="btn btn-success"><span class="glyphicon glyphicon-shopping-cart"></span> Borrow</a>
                     }
-                    @if (Context.User.Identity.IsAuthenticated && item.AddedBy != null && Context.User.Identity.Name == item.AddedBy.UserName)
+                    else
                     {
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        <button class="btn btn-default" disabled>Not available</button>
                     }
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                </td>
+                <td>
+                    <div class="btn-group btn-group-sm btn-group-vertical">
+                        @if (Context.User.Identity.IsAuthenticated && item.AddedBy != null && Context.User.Identity.Name == item.AddedBy.UserName)
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning"><span class="glyphicon glyphicon-edit"></span> Edit</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete</a>
+                        }
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info"><span class="glyphicon glyphicon-align-justify"></span> Details</a>
+                    </div>
                 </td>
             </tr>
         }
