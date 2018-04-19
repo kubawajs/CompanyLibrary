@@ -9,6 +9,7 @@ namespace CompanyLibrary.Website.Services
     public interface IBorrowingService
     {
         Task<IEnumerable<Borrowing>> GetAllAsync();
+        Task<IEnumerable<Borrowing>> GetAllForUserByStateAsync(ApplicationUser user, BorrowingState state);
         Task CreateAsync(Borrowing borrowing);
         Task CreateAsync(ApplicationUser user, Book book);
         Task<Borrowing> GetAsync(int id);

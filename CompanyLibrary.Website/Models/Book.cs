@@ -23,14 +23,12 @@ namespace CompanyLibrary.Website.Models
         public DateTime AddedAt { get; private set; }
         public Availability Availability { get; private set; }
 
-        public virtual IEnumerable<Borrowing> BorrowingsHistory { get; set; }
         public virtual ApplicationUser AddedBy { get; set; }
 
         public Book()
         {
             AddedAt = DateTime.Now;
             Availability = Availability.Available;
-            BorrowingsHistory = new List<Borrowing>();
         }
 
         public void SetAddedBy(ApplicationUser appUser)
@@ -56,7 +54,6 @@ namespace CompanyLibrary.Website.Models
         public void EndBorrowing(Borrowing borrowing)
         {
             IsAvailable();
-            BorrowingsHistory.Append(borrowing);
         }
     }
 

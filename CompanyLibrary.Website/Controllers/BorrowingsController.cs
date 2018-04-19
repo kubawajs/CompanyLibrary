@@ -44,8 +44,19 @@ namespace CompanyLibrary.Website.Controllers
             {
                 return NotFound();
             }
-
             return View(borrowing);
+        }
+
+        // GET: Borrowings/History
+        public async Task<IActionResult> History()
+        {
+            var user = await _applicationUserService.GetCurrentUserAsync(HttpContext);
+            if(user == null)
+            {
+                return NotFound();
+            }
+            var usersHistory = await _borrowingService.GetAllForUserByStateAsync(user, BorrowingState.Closed);
+            return View(usersHistory);
         }
 
         // GET: Borrowings/Create

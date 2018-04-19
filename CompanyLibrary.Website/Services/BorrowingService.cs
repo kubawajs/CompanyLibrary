@@ -72,5 +72,11 @@ namespace CompanyLibrary.Website.Services
             borrowing.EndBorrowing();
             await UpdateAsync(borrowing);
         }
+
+        public async Task<IEnumerable<Borrowing>> GetAllForUserByStateAsync(ApplicationUser user, BorrowingState state)
+            => await Task.FromResult(_context.Borrowings.Include("Borrower")
+                                                        .Include("Book")
+                                                        .Where(x => x.State == state)
+                                                        .Where(x => x.Borrower == user));
     }
 }
