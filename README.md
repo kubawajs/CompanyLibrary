@@ -1,8 +1,35 @@
-# CompanyLibrary
+# Company Library
 
 ## About
 
 Inspiration: https://notehub.org/unw4x
+
+Company Library is a .NET Core MVC used to manage the loan of branch books within the company. Users, which presumably will be the company's employees, can borrow books from common library and add their own items to it.
+
+
+## Getting started
+
+Application will be available on the Azure platform in near future.
+You can sign up to service with your Google account.
+
+## Features
+
+* All books list,
+* My books list - books added by logged in user,
+* Borrow/return book,
+* Add new book,
+* View book details,
+* Edit/delete book added by logged in user,
+* Show book's borrowings history,
+* Show borrowings history for logged in user,
+* Log in/Sign up with Google account.
+
+## Technologies & Services
+
+* .NET Core MVC
+* C#
+* Google+ API
+* Azure
 
 ## Tasks
 
@@ -15,5 +42,7 @@ Inspiration: https://notehub.org/unw4x
 7. User can borrow book. :heavy_check_mark:
 8. User can return book. :heavy_check_mark:
 9. Validations.
-10. Documentation.
-11. Tests.
+10. Tests.
+
+## Author
+Jakub Wajs
