@@ -17,14 +17,14 @@ namespace CompanyLibrary.Website.Controllers
 
         public IActionResult About()
         {
-            ViewData["Message"] = "Your application description page.";
+            ViewData["Message"] = "Company Library";
 
             return View();
         }
 
         public IActionResult Contact()
         {
-            ViewData["Message"] = "Your contact page.";
+            ViewData["Message"] = "If you have any questions, please leave me a message.";
 
             return View();
         }
