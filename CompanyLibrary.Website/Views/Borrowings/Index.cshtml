@@ -55,7 +55,7 @@
                 <td>
                     @if (item.State == BorrowingState.InProgrees)
                     {
-                        <a asp-action="Return" asp-route-id="@item.Id">Return</a>
+                        <a asp-action="Return" asp-route-id="@item.Id" class="btn btn-warning">Return</a>
                     }
                     @if (ViewContext.HttpContext.User.IsInRole("Admin"))
                     {

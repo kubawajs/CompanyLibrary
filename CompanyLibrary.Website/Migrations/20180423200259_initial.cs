@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using System;
+using System.Collections.Generic;
 
 namespace CompanyLibrary.Website.Migrations
 {
@@ -159,9 +160,11 @@ namespace CompanyLibrary.Website.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    AddedAt = table.Column<DateTime>(nullable: false),
                     AddedById = table.Column<string>(nullable: true),
                     Author = table.Column<string>(maxLength: 100, nullable: true),
-                    Description = table.Column<string>(maxLength: 500, nullable: true),
+                    Availability = table.Column<int>(nullable: false),
+                    Description = table.Column<string>(maxLength: 2000, nullable: true),
                     Title = table.Column<string>(maxLength: 100, nullable: true)
                 },
                 constraints: table =>
@@ -183,7 +186,9 @@ namespace CompanyLibrary.Website.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     BookId = table.Column<int>(nullable: true),
                     BorrowerId = table.Column<string>(nullable: true),
-                    RentalDate = table.Column<DateTime>(nullable: false)
+                    EndDate = table.Column<DateTime>(nullable: false),
+                    RentalDate = table.Column<DateTime>(nullable: false),
+                    State = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

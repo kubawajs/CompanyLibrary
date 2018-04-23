@@ -8,6 +8,8 @@
   <ItemGroup>
     <None Remove="Properties\PublishProfiles\CompanyLibrary2018 - Web Deploy.pubxml" />
     <None Remove="Properties\PublishProfiles\CompanyLibraryWebsite - Web Deploy.pubxml" />
+    <None Remove="Properties\PublishProfiles\WebCompanyLibrary - FTP.pubxml" />
+    <None Remove="Properties\PublishProfiles\WebCompanyLibrary - Web Deploy.pubxml" />
   </ItemGroup>
 
 

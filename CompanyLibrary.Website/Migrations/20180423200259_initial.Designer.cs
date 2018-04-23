@@ -12,8 +12,8 @@ using System;
 namespace CompanyLibrary.Website.Migrations
 {
     [DbContext(typeof(CompanyLibraryDbContext))]
-    [Migration("20180417220212_book-availability")]
-    partial class bookavailability
+    [Migration("20180423200259_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -109,7 +109,11 @@ namespace CompanyLibrary.Website.Migrations
 
                     b.Property<string>("BorrowerId");
 
+                    b.Property<DateTime>("EndDate");
+
                     b.Property<DateTime>("RentalDate");
+
+                    b.Property<int>("State");
 
                     b.HasKey("Id");
 
@@ -238,7 +242,7 @@ namespace CompanyLibrary.Website.Migrations
             modelBuilder.Entity("CompanyLibrary.Website.Models.Borrowing", b =>
                 {
                     b.HasOne("CompanyLibrary.Website.Models.Book", "Book")
-                        .WithMany("BorrowingsHistory")
+                        .WithMany()
                         .HasForeignKey("BookId");
 
                     b.HasOne("CompanyLibrary.Website.Models.ApplicationUser", "Borrower")
