@@ -241,7 +241,7 @@ namespace CompanyLibrary.Website.Migrations
             modelBuilder.Entity("CompanyLibrary.Website.Models.Borrowing", b =>
                 {
                     b.HasOne("CompanyLibrary.Website.Models.Book", "Book")
-                        .WithMany("BorrowingsHistory")
+                        .WithMany()
                         .HasForeignKey("BookId");
 
                     b.HasOne("CompanyLibrary.Website.Models.ApplicationUser", "Borrower")

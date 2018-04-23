@@ -27,7 +27,7 @@ namespace CompanyLibrary.Website
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<CompanyLibraryDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("TestDatabase")));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                     .AddEntityFrameworkStores<CompanyLibraryDbContext>()
