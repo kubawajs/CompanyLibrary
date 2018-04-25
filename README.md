@@ -9,8 +9,8 @@ Company Library is a .NET Core MVC used to manage the loan of branch books withi
 
 ## Getting started
 
-Application will be available on the Azure platform in near future.
-You can sign up to service with your Google account.
+Application is deployed on Azure platform:
+companylibraryonline.azurewebsites.net
 
 ## Features
 
