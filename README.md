@@ -10,11 +10,6 @@ Company Library is a .NET Core MVC used to manage the loan of branch books withi
 
 ![Swagger API Screen](https://github.com/kubawajs/CompanyLibrary/raw/master/screen-2.JPG)
 
-## Getting started
-
-Application is deployed on Azure platform:
-https://companylibraryonline.azurewebsites.net
-
 ## Features
 
 * All books list,
