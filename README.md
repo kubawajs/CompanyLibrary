@@ -6,6 +6,9 @@ Inspiration: https://notehub.org/unw4x
 
 Company Library is a .NET Core MVC used to manage the loan of branch books within the company. Users, which presumably will be the company's employees, can borrow books from common library and add their own items to it.
 
+![Swagger API Screen](https://github.com/kubawajs/CompanyLibrary/raw/master/screen-1.JPG)
+
+![Swagger API Screen](https://github.com/kubawajs/CompanyLibrary/raw/master/screen-2.JPG)
 
 ## Getting started
 
